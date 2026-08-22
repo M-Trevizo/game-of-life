@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://c26su0a62gujh"]
+
+[ext_resource type="Theme" uid="uid://c22plog7dl30d" path="res://button_theme.tres" id="1_06t4h"]
+
+[node name="MainMenu" type="Control" unique_id=1319327741]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1881666888]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=851778691]
+layout_mode = 2
+color = Color(0.16862746, 0.16470589, 0.2, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=793338107]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2028358568]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 64
+text = "Conway's Game of Life"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1760478517]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/separation = 250
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1428924307]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme = ExtResource("1_06t4h")
+text = "Play"
+
+[node name="AboutButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1403511928]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme = ExtResource("1_06t4h")
+text = "About"
