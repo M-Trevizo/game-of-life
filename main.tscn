@@ -1,17 +1,18 @@
 [gd_scene format=4 uid="uid://cyuabyoadvg2w"]
 
-[ext_resource type="PackedScene" uid="uid://coovhvmgfhnn4" path="res://grid_square.tscn" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://4epfpxsq4757" path="res://world.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c26su0a62gujh" path="res://UI/main_menu.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://gu6cmc4mukle" path="res://Resources/game_of_life.png" id="2_h2yge"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0xm2m"]
-scenes/1/scene = ExtResource("1_0xm2m")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bvp3"]
+texture = ExtResource("2_h2yge")
+texture_region_size = Vector2i(50, 50)
+0:0/0 = 0
+1:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_g4v7s"]
 tile_size = Vector2i(50, 50)
-custom_data_layer_0/name = "is_alive"
-custom_data_layer_0/type = 1
-sources/0 = SubResource("TileSetScenesCollectionSource_0xm2m")
+sources/1 = SubResource("TileSetAtlasSource_1bvp3")
 
 [node name="Main" type="Node" unique_id=1619528479]
 
@@ -20,7 +21,7 @@ script = ExtResource("1_h2yge")
 camera_speed = 400
 
 [node name="TileMapLayer" type="TileMapLayer" parent="World" unique_id=1750321127]
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAAQACAAAAAAAAAAAAAQADAAAAAAAAAAAAAQADAAEAAAAAAAAAAQACAAEAAAAAAAAAAQABAAEAAAAAAAAAAQAAAAEAAAAAAAAAAQAAAAIAAAAAAAAAAQABAAIAAAAAAAAAAQACAAIAAAAAAAAAAQADAAIAAAAAAAAAAQADAAMAAAAAAAAAAQACAAMAAAAAAAAAAQABAAMAAAAAAAAAAQAAAAMAAAAAAAAAAQAAAAQAAAAAAAAAAQABAAQAAAAAAAAAAQACAAQAAAAAAAAAAQADAAQAAAAAAAAAAQAEAAQAAAAAAAAAAQAEAAMAAAAAAAAAAQAEAAIAAAAAAAAAAQAEAAEAAAAAAAAAAQAEAAAAAAAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAABAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAABAAEAAQAAAAAAAAACAAAAAQAAAAAAAAADAAAAAQAAAAAAAAACAAEAAQAAAAAAAAADAAEAAQAAAAAAAAAEAAEAAQAAAAAAAAAEAAAAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAMAAQAAAAAAAAAAAAQAAQAAAAAAAAABAAQAAQAAAAAAAAACAAQAAQAAAAAAAAADAAQAAQAAAAAAAAAEAAQAAQAAAAAAAAAEAAMAAQAAAAAAAAAEAAIAAQAAAAAAAAABAAIAAQAAAAAAAAACAAIAAQAAAAAAAAADAAIAAQAAAAAAAAADAAMAAQAAAAAAAAACAAMAAQAAAAAAAAABAAMAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_g4v7s")
 
 [node name="Camera2D" type="Camera2D" parent="World" unique_id=749719491]
