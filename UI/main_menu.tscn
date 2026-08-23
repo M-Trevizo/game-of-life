@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c26su0a62gujh"]
 
-[ext_resource type="Theme" uid="uid://c22plog7dl30d" path="res://button_theme.tres" id="1_06t4h"]
+[ext_resource type="Theme" uid="uid://c22plog7dl30d" path="res://UI/button_theme.tres" id="1_06t4h"]
 
 [node name="MainMenu" type="Control" unique_id=1319327741]
 layout_mode = 3
