@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://w1tmrdneaqcj"]
+
+[ext_resource type="Script" uid="uid://1wwbofesgisu" path="res://UI/hud.gd" id="1_ne75i"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1125790290]
+script = ExtResource("1_ne75i")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1350552678]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 57.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=152015159]
+layout_mode = 2
+
+[node name="SpeedContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1564572296]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SpeedContainer" unique_id=413304740]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Speed:"
+
+[node name="Speed" type="Label" parent="MarginContainer/VBoxContainer/SpeedContainer" unique_id=963379287]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0"
+
+[node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1399621061]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ZoomContainer" unique_id=984209799]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Zoom:"
+
+[node name="Zoom" type="Label" parent="MarginContainer/VBoxContainer/ZoomContainer" unique_id=1768089579]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0.0"

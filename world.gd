@@ -7,14 +7,18 @@ var grid_state: GridState
 var global_grid_coords: Vector2
 var chunk_scene: PackedScene = preload("uid://dbffxqi58ld0")
 
+@onready var hud: HUD = $HUD
+@onready var player: Player = $Player
 
 func _ready() -> void:
 	grid_state = GridState.new()
 	global_grid_coords = Vector2.ZERO
 	_generate_starting_chunks()
+	hud.update_speed_label(player.speed)
+	hud.update_zoom_label(player.camera.zoom.x)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
@@ -39,3 +43,11 @@ func _generate_starting_chunks() -> void:
 		instance.position = pos
 		add_child(instance)
 		pos.x += chunk_size.x
+
+
+func _on_player_speed_changed(value: int) -> void:
+	hud.update_speed_label(value)
+
+
+func _on_player_zoom_changed(value: float) -> void:
+	hud.update_zoom_label(value)

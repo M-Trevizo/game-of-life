@@ -1,4 +1,8 @@
+class_name Player
 extends Node2D
+
+signal speed_changed(value: int)
+signal zoom_changed(value: float)
 
 const MAX_SPEED: int = 800
 const MIN_SPEED: int = 200
@@ -11,6 +15,7 @@ const MIN_SPEED: int = 200
 			speed = MIN_SPEED
 		else:
 			speed = new_value
+			emit_signal("speed_changed", speed)
 
 @onready var player: Area2D = $Area2D
 @onready var camera: Camera2D = $Area2D/Camera2D
@@ -35,8 +40,10 @@ func _handle_movement(delta: float) -> void:
 func _handle_zoom() -> void:
 	if Input.is_action_just_pressed("zoom_in") and camera.zoom <= Vector2(1.7, 1.7):
 		camera.zoom += Vector2(0.1, 0.1)
+		emit_signal("zoom_changed", camera.zoom.x)
 	if Input.is_action_just_pressed("zoom_out") and camera.zoom >= Vector2(0.4, 0.4):
 		camera.zoom -= Vector2(0.1, 0.1)
+		emit_signal("zoom_changed", camera.zoom.x)
 
 
 func _handle_speed() -> void:

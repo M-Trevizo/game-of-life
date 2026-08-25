@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://4epfpxsq4757" path="res://world.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c26su0a62gujh" path="res://UI/main_menu.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://gckuhuupe7j6" path="res://Player/player.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://w1tmrdneaqcj" path="res://UI/hud.tscn" id="4_1bvp3"]
 
 [node name="Main" type="Node" unique_id=1619528479]
 
@@ -13,5 +14,10 @@ script = ExtResource("1_h2yge")
 z_index = 1
 speed = 400
 
+[node name="HUD" parent="World" unique_id=1125790290 instance=ExtResource("4_1bvp3")]
+
 [node name="MainMenu" parent="." unique_id=1319327741 instance=ExtResource("1_ig7tw")]
 visible = false
+
+[connection signal="speed_changed" from="World/Player" to="World" method="_on_player_speed_changed"]
+[connection signal="zoom_changed" from="World/Player" to="World" method="_on_player_zoom_changed"]
