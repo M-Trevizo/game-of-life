@@ -1,8 +1,8 @@
 class_name HUD
 extends CanvasLayer
 
-@onready var speed: Label = $MarginContainer/VBoxContainer/SpeedContainer/Speed
-@onready var zoom: Label = $MarginContainer/VBoxContainer/ZoomContainer/Zoom
+@onready var speed: Label = $MarginContainer/LabelContainer/VBoxContainer/SpeedContainer/Speed
+@onready var zoom: Label = $MarginContainer/LabelContainer/VBoxContainer/ZoomContainer/Zoom
 
 
 # Called when the node enters the scene tree for the first time.

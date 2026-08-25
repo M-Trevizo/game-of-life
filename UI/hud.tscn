@@ -2,44 +2,69 @@
 
 [ext_resource type="Script" uid="uid://1wwbofesgisu" path="res://UI/hud.gd" id="1_ne75i"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 4
+border_width_right = 4
+border_color = Color(0.18359044, 0.18359044, 0.18359044, 1)
+corner_radius_top_right = 16
+
 [node name="HUD" type="CanvasLayer" unique_id=1125790290]
 script = ExtResource("1_ne75i")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1350552678]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1355594883]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -50.0
-offset_right = 57.0
+offset_top = -88.0
+offset_right = 127.0
 grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=198520271]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="LabelContainer" type="MarginContainer" parent="MarginContainer" unique_id=1350552678]
+layout_mode = 2
 theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=152015159]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/LabelContainer" unique_id=152015159]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="SpeedContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1564572296]
+[node name="SpeedContainer" type="HBoxContainer" parent="MarginContainer/LabelContainer/VBoxContainer" unique_id=1564572296]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SpeedContainer" unique_id=413304740]
+[node name="Label" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/SpeedContainer" unique_id=413304740]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Speed:"
+horizontal_alignment = 2
 
-[node name="Speed" type="Label" parent="MarginContainer/VBoxContainer/SpeedContainer" unique_id=963379287]
+[node name="Speed" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/SpeedContainer" unique_id=963379287]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "0"
 
-[node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1399621061]
+[node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/LabelContainer/VBoxContainer" unique_id=1399621061]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ZoomContainer" unique_id=984209799]
+[node name="Label" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/ZoomContainer" unique_id=984209799]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "Zoom:"
+horizontal_alignment = 2
 
-[node name="Zoom" type="Label" parent="MarginContainer/VBoxContainer/ZoomContainer" unique_id=1768089579]
+[node name="Zoom" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/ZoomContainer" unique_id=1768089579]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
 text = "0.0"
