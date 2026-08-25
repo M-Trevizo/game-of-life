@@ -2,15 +2,16 @@
 
 [ext_resource type="Script" uid="uid://4epfpxsq4757" path="res://world.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c26su0a62gujh" path="res://UI/main_menu.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://gckuhuupe7j6" path="res://Player/player.tscn" id="2_h2yge"]
 
 [node name="Main" type="Node" unique_id=1619528479]
 
 [node name="World" type="Node2D" parent="." unique_id=1246180306]
 script = ExtResource("1_h2yge")
-camera_speed = 400
 
-[node name="Camera2D" type="Camera2D" parent="World" unique_id=749719491]
-anchor_mode = 0
+[node name="Player" parent="World" unique_id=319801176 instance=ExtResource("2_h2yge")]
+z_index = 1
+speed = 400
 
 [node name="MainMenu" parent="." unique_id=1319327741 instance=ExtResource("1_ig7tw")]
 visible = false

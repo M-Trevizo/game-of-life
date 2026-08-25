@@ -1,16 +1,5 @@
 extends Node2D
 
-@export var camera_speed: int:
-	set(new_value):
-		if new_value > MAX_CAM_SPEED:
-			camera_speed = MAX_CAM_SPEED
-		elif new_value < MIN_CAM_SPEED:
-			camera_speed = MIN_CAM_SPEED
-		else:
-			camera_speed = new_value
-
-@onready var camera: Camera2D = $Camera2D
-
 const MAX_CAM_SPEED: int = 800
 const MIN_CAM_SPEED: int = 200
 
@@ -18,38 +7,15 @@ var grid_state: GridState
 var global_grid_coords: Vector2
 var chunk_scene: PackedScene = preload("uid://dbffxqi58ld0")
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	grid_state = GridState.new()
 	global_grid_coords = Vector2.ZERO
 	_generate_starting_chunks()
-	
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	_handle_cam_movement(delta)
-	_handle_cam_zoom()
-	_handle_cam_speed()
-
-
-func _handle_cam_movement(delta: float) -> void:
-	var velocity = Input.get_vector("cam_left", "cam_right", "cam_up", "cam_down") * camera_speed
-	camera.position += velocity * delta
-
-
-func _handle_cam_zoom() -> void:
-	if Input.is_action_just_pressed("zoom_in") and camera.zoom <= Vector2(1.7, 1.7):
-		camera.zoom += Vector2(0.1, 0.1)
-	if Input.is_action_just_pressed("zoom_out") and camera.zoom >= Vector2(0.4, 0.4):
-		camera.zoom -= Vector2(0.1, 0.1)
-
-
-func _handle_cam_speed() -> void:
-	if Input.is_action_just_pressed("inc_cam_speed"):
-		camera_speed += 50
-	if Input.is_action_just_pressed("dec_cam_speed"):
-		camera_speed -= 50
+	pass
 
 
 func _unhandled_input(event: InputEvent) -> void:
