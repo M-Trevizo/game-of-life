@@ -14,6 +14,7 @@ func _ready() -> void:
 	grid_state = GridState.new()
 	global_grid_coords = Vector2.ZERO
 	_generate_starting_chunks()
+	_position_player()
 	hud.update_speed_label(player.speed)
 	hud.update_zoom_label(player.camera.zoom.x)
 
@@ -51,3 +52,9 @@ func _on_player_speed_changed(value: int) -> void:
 
 func _on_player_zoom_changed(value: float) -> void:
 	hud.update_zoom_label(value)
+
+
+func _position_player() -> void:
+	var chunk_size := Vector2i(10 * 50, 10 * 50)
+	var center: Vector2i = (Vector2i.ZERO + chunk_size) / 2.0
+	player.position = center
