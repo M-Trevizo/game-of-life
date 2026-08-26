@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://dbffxqi58ld0"]
 
+[ext_resource type="Script" uid="uid://b38sken3mn4hq" path="res://Grid/chunk.gd" id="1_0r6ap"]
 [ext_resource type="Texture2D" uid="uid://gu6cmc4mukle" path="res://Resources/game_of_life.png" id="1_ra2am"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0r6ap"]
@@ -15,43 +16,57 @@ tile_size = Vector2i(50, 50)
 sources/1 = SubResource("TileSetAtlasSource_0r6ap")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
-size = Vector2(20, 500)
+size = Vector2(19, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
-size = Vector2(20, 500)
+size = Vector2(19, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_57qmd"]
-size = Vector2(500, 20)
+size = Vector2(500, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0u6y"]
-size = Vector2(500, 20)
+size = Vector2(500, 19)
 
 [node name="Chunk" type="Node2D" unique_id=236274792]
+script = ExtResource("1_0r6ap")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=340260472]
 tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAMAAQAAAAAAAAAAAAQAAQAAAAAAAAAAAAUAAQAAAAAAAAAAAAYAAQAAAAAAAAAAAAcAAQAAAAAAAAAAAAgAAQAAAAAAAAAAAAkAAQAAAAAAAAABAAAAAQAAAAAAAAABAAEAAQAAAAAAAAABAAIAAQAAAAAAAAABAAMAAQAAAAAAAAABAAQAAQAAAAAAAAABAAUAAQAAAAAAAAABAAYAAQAAAAAAAAABAAcAAQAAAAAAAAABAAgAAQAAAAAAAAABAAkAAQAAAAAAAAACAAAAAQAAAAAAAAACAAEAAQAAAAAAAAACAAIAAQAAAAAAAAACAAMAAQAAAAAAAAACAAQAAQAAAAAAAAACAAUAAQAAAAAAAAACAAYAAQAAAAAAAAACAAcAAQAAAAAAAAACAAgAAQAAAAAAAAACAAkAAQAAAAAAAAADAAAAAQAAAAAAAAADAAEAAQAAAAAAAAADAAIAAQAAAAAAAAADAAMAAQAAAAAAAAADAAQAAQAAAAAAAAADAAUAAQAAAAAAAAADAAYAAQAAAAAAAAADAAcAAQAAAAAAAAADAAgAAQAAAAAAAAADAAkAAQAAAAAAAAAEAAAAAQAAAAAAAAAEAAEAAQAAAAAAAAAEAAIAAQAAAAAAAAAEAAMAAQAAAAAAAAAEAAQAAQAAAAAAAAAEAAUAAQAAAAAAAAAEAAYAAQAAAAAAAAAEAAcAAQAAAAAAAAAEAAgAAQAAAAAAAAAEAAkAAQAAAAAAAAAFAAAAAQAAAAAAAAAFAAEAAQAAAAAAAAAFAAIAAQAAAAAAAAAFAAMAAQAAAAAAAAAFAAQAAQAAAAAAAAAFAAUAAQAAAAAAAAAFAAYAAQAAAAAAAAAFAAcAAQAAAAAAAAAFAAgAAQAAAAAAAAAFAAkAAQAAAAAAAAAGAAAAAQAAAAAAAAAGAAEAAQAAAAAAAAAGAAIAAQAAAAAAAAAGAAMAAQAAAAAAAAAGAAQAAQAAAAAAAAAGAAUAAQAAAAAAAAAGAAYAAQAAAAAAAAAGAAcAAQAAAAAAAAAGAAgAAQAAAAAAAAAGAAkAAQAAAAAAAAAHAAAAAQAAAAAAAAAHAAEAAQAAAAAAAAAHAAIAAQAAAAAAAAAHAAMAAQAAAAAAAAAHAAQAAQAAAAAAAAAHAAUAAQAAAAAAAAAHAAYAAQAAAAAAAAAHAAcAAQAAAAAAAAAHAAgAAQAAAAAAAAAHAAkAAQAAAAAAAAAIAAAAAQAAAAAAAAAIAAEAAQAAAAAAAAAIAAIAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAIAAUAAQAAAAAAAAAIAAYAAQAAAAAAAAAIAAcAAQAAAAAAAAAIAAgAAQAAAAAAAAAIAAkAAQAAAAAAAAAJAAAAAQAAAAAAAAAJAAEAAQAAAAAAAAAJAAIAAQAAAAAAAAAJAAMAAQAAAAAAAAAJAAQAAQAAAAAAAAAJAAUAAQAAAAAAAAAJAAYAAQAAAAAAAAAJAAcAAQAAAAAAAAAJAAgAAQAAAAAAAAAJAAkAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_g4v7s")
 
 [node name="LeftArea" type="Area2D" parent="." unique_id=513315624]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArea" unique_id=1736790232]
-position = Vector2(10, 250)
+position = Vector2(10.5, 250)
 shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="RightArea" type="Area2D" parent="." unique_id=1412590977]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightArea" unique_id=229750895]
-position = Vector2(490, 250)
+position = Vector2(489.5, 250)
 shape = SubResource("RectangleShape2D_yf5fn")
 
 [node name="UpArea" type="Area2D" parent="." unique_id=1185860558]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpArea" unique_id=1012360358]
-position = Vector2(250, 10)
+position = Vector2(250, 10.5)
 shape = SubResource("RectangleShape2D_57qmd")
 
 [node name="DownArea" type="Area2D" parent="." unique_id=1002433414]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DownArea" unique_id=1585823074]
-position = Vector2(250, 490)
+position = Vector2(250, 489.5)
 shape = SubResource("RectangleShape2D_d0u6y")
+
+[connection signal="area_entered" from="LeftArea" to="." method="_on_left_area_area_entered"]
+[connection signal="area_exited" from="LeftArea" to="." method="_on_left_area_area_exited"]
+[connection signal="area_entered" from="RightArea" to="." method="_on_right_area_area_entered"]
+[connection signal="area_exited" from="RightArea" to="." method="_on_right_area_area_exited"]
+[connection signal="area_entered" from="UpArea" to="." method="_on_up_area_area_entered"]
+[connection signal="area_exited" from="UpArea" to="." method="_on_up_area_area_exited"]
+[connection signal="area_entered" from="DownArea" to="." method="_on_down_area_area_entered"]
+[connection signal="area_exited" from="DownArea" to="." method="_on_down_area_area_exited"]

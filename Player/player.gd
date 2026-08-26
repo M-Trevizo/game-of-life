@@ -7,6 +7,8 @@ signal zoom_changed(value: float)
 const MAX_SPEED: int = 800
 const MIN_SPEED: int = 200
 
+var current_chunk: int
+
 @export var speed: int:
 	set(new_value):
 		if new_value > MAX_SPEED:
