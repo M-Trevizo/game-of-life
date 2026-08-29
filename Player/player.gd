@@ -3,11 +3,24 @@ extends Node2D
 
 signal speed_changed(value: int)
 signal zoom_changed(value: float)
+signal chunk_id_changed(entered_from: Chunk.Sides)
+
+#enum ChunkSides {
+	#UP,
+	#DOWN,
+	#LEFT,
+	#RIGHT,
+#}
 
 const MAX_SPEED: int = 800
 const MIN_SPEED: int = 200
 
-var current_chunk: int
+# Player always starts here
+var current_chunk_id: int = 4:
+	set(new_value):
+		current_chunk_id = new_value
+		chunk_id_changed.emit()
+var entered_from: Chunk.Sides
 
 @export var speed: int:
 	set(new_value):
@@ -53,3 +66,21 @@ func _handle_speed() -> void:
 		speed += 50
 	if Input.is_action_just_pressed("dec_speed"):
 		speed -= 50
+
+
+func _on_area_entered(area: Area2D) -> void:
+	var chunk: Chunk = area.get_parent()
+	if current_chunk_id != chunk.id:
+		current_chunk_id = chunk.id
+		var area_name: StringName = area.name
+		match area_name:
+			"Left":
+				entered_from = Chunk.Sides.LEFT
+			"Right":
+				entered_from = Chunk.Sides.RIGHT
+			"Up":
+				entered_from = Chunk.Sides.UP
+			"Down":
+				entered_from = Chunk.Sides.DOWN
+		print("In chunk ID: " + str(current_chunk_id))
+		print("Entered from the: " + area_name)

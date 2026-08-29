@@ -19,5 +19,6 @@ speed = 400
 [node name="MainMenu" parent="." unique_id=1319327741 instance=ExtResource("1_ig7tw")]
 visible = false
 
+[connection signal="chunk_id_changed" from="World/Player" to="World" method="_on_player_chunk_id_changed"]
 [connection signal="speed_changed" from="World/Player" to="World" method="_on_player_speed_changed"]
 [connection signal="zoom_changed" from="World/Player" to="World" method="_on_player_zoom_changed"]
