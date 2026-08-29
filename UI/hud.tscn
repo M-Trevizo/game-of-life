@@ -1,70 +1,120 @@
 [gd_scene format=3 uid="uid://w1tmrdneaqcj"]
 
 [ext_resource type="Script" uid="uid://1wwbofesgisu" path="res://UI/hud.gd" id="1_ne75i"]
+[ext_resource type="Theme" uid="uid://c22plog7dl30d" path="res://UI/button_theme.tres" id="2_bytes"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
 bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_color = Color(0.18359044, 0.18359044, 0.18359044, 1)
+corner_radius_top_left = 16
 corner_radius_top_right = 16
 
 [node name="HUD" type="CanvasLayer" unique_id=1125790290]
 script = ExtResource("1_ne75i")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1355594883]
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -88.0
-offset_right = 127.0
+offset_left = -116.0
+offset_top = -104.0
+offset_right = 116.0
+grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Panel" type="Panel" parent="MarginContainer" unique_id=198520271]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
 
-[node name="LabelContainer" type="MarginContainer" parent="MarginContainer" unique_id=1350552678]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=465211448]
+layout_mode = 2
+
+[node name="LabelContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1350552678]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/LabelContainer" unique_id=152015159]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/LabelContainer" unique_id=411345826]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
 
-[node name="SpeedContainer" type="HBoxContainer" parent="MarginContainer/LabelContainer/VBoxContainer" unique_id=1564572296]
+[node name="SpeedContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer" unique_id=1564572296]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/SpeedContainer" unique_id=413304740]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/SpeedContainer" unique_id=413304740]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
 text = "Speed:"
 horizontal_alignment = 2
 
-[node name="Speed" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/SpeedContainer" unique_id=963379287]
+[node name="Speed" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/SpeedContainer" unique_id=963379287]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
 text = "0"
 
-[node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/LabelContainer/VBoxContainer" unique_id=1399621061]
+[node name="ZoomContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer" unique_id=1399621061]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/ZoomContainer" unique_id=984209799]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/ZoomContainer" unique_id=984209799]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
 text = "Zoom:"
 horizontal_alignment = 2
 
-[node name="Zoom" type="Label" parent="MarginContainer/LabelContainer/VBoxContainer/ZoomContainer" unique_id=1768089579]
+[node name="Zoom" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/ZoomContainer" unique_id=1768089579]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
 text = "0.0"
+
+[node name="ButtonContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1366004160]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ButtonContainer" unique_id=1510984802]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer" unique_id=2009897658]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("2_bytes")
+theme_override_font_sizes/font_size = 24
+text = "Play"
+
+[node name="StepButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer" unique_id=2103207770]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("2_bytes")
+theme_override_font_sizes/font_size = 24
+text = "Step"
+
+[node name="StopButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer" unique_id=401847116]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("2_bytes")
+theme_override_font_sizes/font_size = 24
+text = "Stop
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer/StepButton" to="." method="_on_step_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ButtonContainer/HBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]
