@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 
 
 func _handle_movement(delta: float) -> void:
-	var velocity = Input.get_vector("left", "right", "up", "down") * speed
+	var velocity: Vector2 = Input.get_vector("left", "right", "up", "down") * speed
 	player.position += velocity * delta
 
 

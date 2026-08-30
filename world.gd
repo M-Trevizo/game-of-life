@@ -26,12 +26,12 @@ func _process(_delta: float) -> void:
 func _generate_starting_chunks() -> void:
 	var chunk_size := Vector2i(10 * 50, 10 * 50)
 	var pos := Vector2i.ZERO - chunk_size
-	var x_start = pos.x
+	var x_start: int = pos.x
 	for i in range(9):
 		if i != 0 and i % 3 == 0:
 			pos.y += chunk_size.y
 			pos.x = x_start
-		var chunk = Chunk.create(pos)
+		var chunk: Chunk = Chunk.create(pos)
 		add_child(chunk)
 		pos.x += chunk_size.x
 

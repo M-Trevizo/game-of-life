@@ -37,6 +37,8 @@ var id: int
 ## The pseudo location of the chunk given in relation to chunk origin (0, 0)
 var location: Vector2i
 var contains_mouse: bool
+
+## List of cells that are currently alive
 var active_cells: Array[Vector2i]
 
 @onready var tilemap_layer: TileMapLayer = $TileMapLayer
