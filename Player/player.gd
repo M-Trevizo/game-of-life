@@ -19,7 +19,7 @@ const MIN_SPEED: int = 200
 var current_chunk_id: int = 4:
 	set(new_value):
 		current_chunk_id = new_value
-		chunk_id_changed.emit()
+		chunk_id_changed.emit(entered_from, current_chunk_id)
 var entered_from: Chunk.Sides
 
 @export var speed: int:
@@ -71,7 +71,6 @@ func _handle_speed() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	var chunk: Chunk = area.get_parent()
 	if current_chunk_id != chunk.id:
-		current_chunk_id = chunk.id
 		var area_name: StringName = area.name
 		match area_name:
 			"Left":
@@ -82,5 +81,7 @@ func _on_area_entered(area: Area2D) -> void:
 				entered_from = Chunk.Sides.UP
 			"Down":
 				entered_from = Chunk.Sides.DOWN
+		current_chunk_id = chunk.id
 		print("In chunk ID: " + str(current_chunk_id))
 		print("Entered from the: " + area_name)
+		print("Chunk location: " + str(chunk.location))

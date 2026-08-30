@@ -50,6 +50,8 @@ func _position_player() -> void:
 	player.position = center
 
 
-func _on_player_chunk_id_changed(chunk_side: Chunk.Sides) -> void:
-	#Chunk.generate_chunks()
-	pass
+func _on_player_chunk_id_changed(chunk_side: Chunk.Sides, chunk_id: int) -> void:
+	var chunk: Chunk = Chunk.get_chunk(chunk_id)
+	var chunks: Array[Chunk] = Chunk.generate_chunks(3, chunk_side, chunk)
+	for instance in chunks:
+		call_deferred("add_child", instance)

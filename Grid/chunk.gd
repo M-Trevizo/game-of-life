@@ -55,20 +55,43 @@ static func create(pos: Vector2i) -> Chunk:
 	return instance
 
 
-static func generate_chunks(num_of_chunks: int, side: Sides, starting_pos: Vector2i) -> Array[Chunk]:
-	var chunks: Array[Chunk] = []
+static func generate_chunks(num_of_chunks: int, side: Sides, chunk: Chunk) -> Array[Chunk]:
+	var chunk_arr: Array[Chunk] = []
+	var chunk_location: Vector2i = chunk.location
+	match side:
+		Sides.UP: 
+			chunk_location += Vector2i(-1, 1)
+		Sides.RIGHT: 
+			chunk_location += Vector2i(-1, -1)
+		Sides.DOWN: 
+			chunk_location += Vector2i(-1, -1)
+		Sides.LEFT:
+			chunk_location += Vector2i(1, -1)
 	for i in range(num_of_chunks):
-		match side:
-			Sides.UP: 
-				pass
-			Sides.RIGHT: 
-				pass
-			Sides.DOWN: 
-				pass
-			Sides.LEFT:
-				pass
-				#create(starting_pos)
-	return chunks
+		# Convert starting_pos from relative grid location to global coords
+		var global_pos: Vector2i = relative_to_global(chunk_location)
+		chunk_arr.append(create(global_pos))
+		if side == Sides.UP or side == Sides.DOWN:
+			chunk_location.x += 1
+		else:
+			chunk_location.y += 1
+	return chunk_arr
+	
+
+
+static func free_chunks(side: Sides) -> void:
+	pass
+
+
+## Returns the chunk with the given chunk [member id].
+static func get_chunk(chunk_id: int) -> Chunk:
+	return chunks.get(chunk_id)
+
+
+## Converts a chunks chunk-grid location to a global position.
+## Takes [member location] as argument
+static func relative_to_global(chunk_location: Vector2i) -> Vector2i:
+	return Vector2i(chunk_location.x * CHUNK_WIDTH, chunk_location.y * CHUNK_WIDTH)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -98,37 +121,36 @@ func _on_mouse_exited() -> void:
 	contains_mouse = false
 
 
-func _on_left_area_entered(area: Area2D) -> void:
-	print("Entered Left area of chunk id: " + str(id))
-	# Get position of chunk that we enter
-	# Generate chunks starting at appropriate pos offset 
-	# This should generate a new row or column depending on area entered
-	generate_chunks(1, Sides.LEFT, position)
-
-
-func _on_left_area_exited(area: Area2D) -> void:
-	print("Exited Left area of chunk id: " + str(id))
-
-
-func _on_right_area_entered(area: Area2D) -> void:
-	print("Entered Right area of chunk id: " + str(id))
-
-
-func _on_right_area_exited(area: Area2D) -> void:
-	print("Exited Right area of chunk id: " + str(id))
-
-
-func _on_up_area_entered(area: Area2D) -> void:
-	print("Entered Up area of chunk id: " + str(id))
-
-
-func _on_up_area_exited(area: Area2D) -> void:
-	print("Exited Up area of chunk id: " + str(id))
-
-
-func _on_down_area_entered(area: Area2D) -> void:
-	print("Entered Down area of chunk id: " + str(id))
-
-
-func _on_down_area_exited(area: Area2D) -> void:
-	print("Exited Down area of chunk id: " + str(id))
+#func _on_left_area_entered(area: Area2D) -> void:
+	#print("Entered Left area of chunk id: " + str(id))
+	## Get position of chunk that we enter
+	## Generate chunks starting at appropriate pos offset 
+	## This should generate a new row or column depending on area entered
+#
+#
+#func _on_left_area_exited(area: Area2D) -> void:
+	#print("Exited Left area of chunk id: " + str(id))
+#
+#
+#func _on_right_area_entered(area: Area2D) -> void:
+	#print("Entered Right area of chunk id: " + str(id))
+#
+#
+#func _on_right_area_exited(area: Area2D) -> void:
+	#print("Exited Right area of chunk id: " + str(id))
+#
+#
+#func _on_up_area_entered(area: Area2D) -> void:
+	#print("Entered Up area of chunk id: " + str(id))
+#
+#
+#func _on_up_area_exited(area: Area2D) -> void:
+	#print("Exited Up area of chunk id: " + str(id))
+#
+#
+#func _on_down_area_entered(area: Area2D) -> void:
+	#print("Entered Down area of chunk id: " + str(id))
+#
+#
+#func _on_down_area_exited(area: Area2D) -> void:
+	#print("Exited Down area of chunk id: " + str(id))
