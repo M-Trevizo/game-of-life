@@ -7,8 +7,6 @@ extends Node2D
 ## and static functions needed to handle chunks.
 
 
-#signal generate_chunks(chunk_pos: Vector2i, num_chunks: int)
-
 ## Sides of the chunk.
 enum Sides {
 	UP,
@@ -71,7 +69,17 @@ static func generate_chunks(num_of_chunks: int, entered_from: Sides, chunk: Chun
 	for i in range(num_of_chunks):
 		# Convert starting_pos from relative grid location to global coords
 		var global_pos: Vector2i = relative_to_global(chunk_location)
-		chunk_arr.append(create(global_pos))
+		# Check if a chunk already exists at a givent position
+		# If it does, add that instance to the return array
+		var does_exist: bool = false
+		for chunk_instance: Chunk in chunks.values():
+			if chunk_instance.location == chunk_location:
+				chunk_arr.append(chunk_instance)
+				does_exist = true
+				break
+		# If chunk does not already exist create a new one and add it to the return arr
+		if not does_exist:
+			chunk_arr.append(create(global_pos))
 		if entered_from == Sides.UP or entered_from == Sides.DOWN:
 			chunk_location.x += 1
 		else:
@@ -79,7 +87,8 @@ static func generate_chunks(num_of_chunks: int, entered_from: Sides, chunk: Chun
 	return chunk_arr
 	
 
-## Returns an array of chunks to free
+## Returns an array of chunks to hide. [br]
+## Does [b]NOT[/b] free chunks, as doing so would remove them and their state from memory.
 static func free_chunks(num_of_chunks:int, entered_from: Sides, chunk: Chunk) -> Array[Chunk]:
 	var chunk_arr: Array[Chunk] = []
 	var chunk_location: Vector2i = chunk.location
@@ -103,7 +112,7 @@ static func free_chunks(num_of_chunks:int, entered_from: Sides, chunk: Chunk) ->
 	return chunk_arr
 
 
-## Returns the chunk with the given chunk [member id].
+## Returns the chunk with the given [member id] or [code]null[/code] if none exist.
 static func get_chunk_by_id(chunk_id: int) -> Chunk:
 	return chunks.get(chunk_id)
 
@@ -126,8 +135,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			var local_pos: Vector2 = to_local(get_global_mouse_position())
 			var map_pos: Vector2i = tilemap_layer.local_to_map(local_pos)
 			_flip_cell(map_pos)
-			#print(map_pos)
-			#print(active_cells)
 
 
 func _flip_cell(map_pos: Vector2i) -> void:
@@ -145,38 +152,3 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	contains_mouse = false
-
-
-#func _on_left_area_entered(area: Area2D) -> void:
-	#print("Entered Left area of chunk id: " + str(id))
-	## Get position of chunk that we enter
-	## Generate chunks starting at appropriate pos offset 
-	## This should generate a new row or column depending on area entered
-#
-#
-#func _on_left_area_exited(area: Area2D) -> void:
-	#print("Exited Left area of chunk id: " + str(id))
-#
-#
-#func _on_right_area_entered(area: Area2D) -> void:
-	#print("Entered Right area of chunk id: " + str(id))
-#
-#
-#func _on_right_area_exited(area: Area2D) -> void:
-	#print("Exited Right area of chunk id: " + str(id))
-#
-#
-#func _on_up_area_entered(area: Area2D) -> void:
-	#print("Entered Up area of chunk id: " + str(id))
-#
-#
-#func _on_up_area_exited(area: Area2D) -> void:
-	#print("Exited Up area of chunk id: " + str(id))
-#
-#
-#func _on_down_area_entered(area: Area2D) -> void:
-	#print("Entered Down area of chunk id: " + str(id))
-#
-#
-#func _on_down_area_exited(area: Area2D) -> void:
-	#print("Exited Down area of chunk id: " + str(id))
