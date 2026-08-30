@@ -54,11 +54,12 @@ static func create(pos: Vector2i) -> Chunk:
 	chunks[instance.id] = instance
 	return instance
 
-
-static func generate_chunks(num_of_chunks: int, side: Sides, chunk: Chunk) -> Array[Chunk]:
+## Creates a number of new chunks given by [param num_of_chunks]. [br]
+## Returns an array of chunks to be added as child nodes.
+static func generate_chunks(num_of_chunks: int, entered_from: Sides, chunk: Chunk) -> Array[Chunk]:
 	var chunk_arr: Array[Chunk] = []
 	var chunk_location: Vector2i = chunk.location
-	match side:
+	match entered_from:
 		Sides.UP: 
 			chunk_location += Vector2i(-1, 1)
 		Sides.RIGHT: 
@@ -71,22 +72,47 @@ static func generate_chunks(num_of_chunks: int, side: Sides, chunk: Chunk) -> Ar
 		# Convert starting_pos from relative grid location to global coords
 		var global_pos: Vector2i = relative_to_global(chunk_location)
 		chunk_arr.append(create(global_pos))
-		if side == Sides.UP or side == Sides.DOWN:
+		if entered_from == Sides.UP or entered_from == Sides.DOWN:
 			chunk_location.x += 1
 		else:
 			chunk_location.y += 1
 	return chunk_arr
 	
 
-
-static func free_chunks(side: Sides) -> void:
-	pass
+## Returns an array of chunks to free
+static func free_chunks(num_of_chunks:int, entered_from: Sides, chunk: Chunk) -> Array[Chunk]:
+	var chunk_arr: Array[Chunk] = []
+	var chunk_location: Vector2i = chunk.location
+	match entered_from:
+		Sides.UP: 
+			chunk_location += Vector2i(-1, -2)
+		Sides.RIGHT: 
+			chunk_location += Vector2i(2, -1)
+		Sides.DOWN: 
+			chunk_location += Vector2i(-1, 2)
+		Sides.LEFT:
+			chunk_location += Vector2i(-2, -1)
+	for i in range(num_of_chunks):
+		# Convert starting_pos from relative grid location to global coords
+		#var global_pos: Vector2i = relative_to_global(chunk_location)
+		chunk_arr.append(get_chunk_by_loc(chunk_location))
+		if entered_from == Sides.UP or entered_from == Sides.DOWN:
+			chunk_location.x += 1
+		else:
+			chunk_location.y += 1
+	return chunk_arr
 
 
 ## Returns the chunk with the given chunk [member id].
-static func get_chunk(chunk_id: int) -> Chunk:
+static func get_chunk_by_id(chunk_id: int) -> Chunk:
 	return chunks.get(chunk_id)
 
+
+static func get_chunk_by_loc(chunk_loc: Vector2i) -> Chunk:
+	for chunk: Chunk in chunks.values():
+		if chunk.location == chunk_loc:
+			return chunk
+	return null
 
 ## Converts a chunks chunk-grid location to a global position.
 ## Takes [member location] as argument

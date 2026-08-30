@@ -51,7 +51,10 @@ func _position_player() -> void:
 
 
 func _on_player_chunk_id_changed(chunk_side: Chunk.Sides, chunk_id: int) -> void:
-	var chunk: Chunk = Chunk.get_chunk(chunk_id)
-	var chunks: Array[Chunk] = Chunk.generate_chunks(3, chunk_side, chunk)
-	for instance in chunks:
+	var chunk: Chunk = Chunk.get_chunk_by_id(chunk_id)
+	var to_add: Array[Chunk] = Chunk.generate_chunks(3, chunk_side, chunk)
+	var to_free: Array[Chunk] = Chunk.free_chunks(3, chunk_side, chunk)
+	for instance in to_add:
 		call_deferred("add_child", instance)
+	for instance in to_free:
+		remove_child(instance)
