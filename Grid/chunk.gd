@@ -103,7 +103,6 @@ static func free_chunks(num_of_chunks:int, entered_from: Sides, chunk: Chunk) ->
 			chunk_location += Vector2i(-2, -1)
 	for i in range(num_of_chunks):
 		# Convert starting_pos from relative grid location to global coords
-		#var global_pos: Vector2i = relative_to_global(chunk_location)
 		chunk_arr.append(get_chunk_by_loc(chunk_location))
 		if entered_from == Sides.UP or entered_from == Sides.DOWN:
 			chunk_location.x += 1
