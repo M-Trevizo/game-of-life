@@ -1,4 +1,4 @@
-class_name GridSquare
+class_name Cell
 extends Object
 
 var location: Vector2i
