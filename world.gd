@@ -10,10 +10,12 @@ var chunk_scene: PackedScene = preload("uid://dbffxqi58ld0")
 
 @onready var hud: HUD = $HUD
 @onready var player: Player = $Player
+@onready var timer: Timer = $Timer
+
 
 func _ready() -> void:
 	#grid_state = GridState.new()
-	simulation = Simulation.new()
+	simulation = Simulation.new(timer)
 	_generate_starting_chunks()
 	_position_player()
 	hud.update_speed_label(player.speed)

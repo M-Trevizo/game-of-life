@@ -16,6 +16,8 @@ speed = 400
 
 [node name="HUD" parent="World" unique_id=1125790290 instance=ExtResource("4_1bvp3")]
 
+[node name="Timer" type="Timer" parent="World" unique_id=1109540733]
+
 [node name="MainMenu" parent="." unique_id=1319327741 instance=ExtResource("1_ig7tw")]
 visible = false
 
