@@ -22,3 +22,6 @@ visible = false
 [connection signal="chunk_id_changed" from="World/Player" to="World" method="_on_player_chunk_id_changed"]
 [connection signal="speed_changed" from="World/Player" to="World" method="_on_player_speed_changed"]
 [connection signal="zoom_changed" from="World/Player" to="World" method="_on_player_zoom_changed"]
+[connection signal="sim_start" from="World/HUD" to="World" method="_on_sim_started"]
+[connection signal="sim_step" from="World/HUD" to="World" method="_on_sim_stepped"]
+[connection signal="sim_stop" from="World/HUD" to="World" method="_on_sim_stopped"]

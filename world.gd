@@ -3,16 +3,17 @@ extends Node2D
 const MAX_CAM_SPEED: int = 800
 const MIN_CAM_SPEED: int = 200
 
-var grid_state: GridState
-var global_grid_coords: Vector2
+#var grid_state: GridState
+#var global_grid_coords: Vector2
+var simulation: Simulation
 var chunk_scene: PackedScene = preload("uid://dbffxqi58ld0")
 
 @onready var hud: HUD = $HUD
 @onready var player: Player = $Player
 
 func _ready() -> void:
-	grid_state = GridState.new()
-	global_grid_coords = Vector2.ZERO
+	#grid_state = GridState.new()
+	simulation = Simulation.new()
 	_generate_starting_chunks()
 	_position_player()
 	hud.update_speed_label(player.speed)
@@ -58,3 +59,15 @@ func _on_player_chunk_id_changed(chunk_side: Chunk.Sides, chunk_id: int) -> void
 		call_deferred("add_child", instance)
 	for instance in to_free:
 		remove_child(instance)
+
+
+func _on_sim_started() -> void:
+	simulation.start()
+
+
+func _on_sim_stepped() -> void:
+	simulation.step()
+
+
+func _on_sim_stopped() -> void:
+	simulation.stop()
