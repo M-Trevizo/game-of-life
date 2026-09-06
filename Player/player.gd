@@ -5,13 +5,6 @@ signal speed_changed(value: int)
 signal zoom_changed(value: float)
 signal chunk_id_changed(entered_from: Chunk.Sides)
 
-#enum ChunkSides {
-	#UP,
-	#DOWN,
-	#LEFT,
-	#RIGHT,
-#}
-
 const MAX_SPEED: int = 800
 const MIN_SPEED: int = 200
 
@@ -34,10 +27,6 @@ var entered_from: Chunk.Sides
 
 @onready var player: Area2D = $Area2D
 @onready var camera: Camera2D = $Area2D/Camera2D
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

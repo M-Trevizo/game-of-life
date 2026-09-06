@@ -32,12 +32,12 @@ static var tile_source_id: int = 1
 static var alive_tile_atlas_coords := Vector2i(1, 0)
 static var dead_tile_atlas_coords := Vector2i(0, 0)
 
+## Chunk ID
 var id: int
-
 ## The pseudo location of the chunk given in relation to chunk origin (0, 0)
 var location: Vector2i
+## Whether the chunk contains the mouse or not.
 var contains_mouse: bool
-
 ## List of cells that are currently alive and the number of live neighbors.
 var cells: Dictionary[Vector2i, Cell]
 
@@ -135,6 +135,7 @@ static func relative_to_global(chunk_location: Vector2i) -> Vector2i:
 
 
 ## Flips a tile from a dead tile to an alive tile and vice versa.
+## Then marks the cell as dead or alive accordingly.
 func flip_cell(map_pos: Vector2i) -> void:
 	var cell: Cell = cells.get(map_pos)
 	if not cell.is_alive:
@@ -145,6 +146,7 @@ func flip_cell(map_pos: Vector2i) -> void:
 		cell.is_alive = false
 
 
+## Updates the number of living neighbors for the cell at [param cell_pos].
 func update_cell(cell_pos: Vector2i) -> void:
 	var cell: Cell = cells.get(cell_pos)
 	cell.num_of_alive_neighbors = _count_live_neighbors(cell)
@@ -177,31 +179,12 @@ func _get_cell_neighbors(cell_pos: Vector2i) -> Array[Vector2i]:
 	return neighbors
 
 
-## Update the values in [member active_cells] if they are neighbors of [param cell_pos]. [br]
-## [param increment] will increment the values if [code]true[/code] and decrement if [code]false[/code].
-func _update_neighbors(cell: Cell) -> void:
-	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell.location)
-	for neighbor in neighbors:
-		if (
-			neighbor.x < 0
-			or neighbor.y < 0
-			or neighbor.x > 9
-			or neighbor.y > 9
-		):
-			continue
-		if cell.is_alive:
-			cells[neighbor].num_of_alive_neighbors += 1
-		else:
-			cells[neighbor].num_of_alive_neighbors -= 1
-
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and contains_mouse:
 			var local_pos: Vector2 = to_local(get_global_mouse_position())
 			var map_pos: Vector2i = tilemap_layer.local_to_map(local_pos)
 			flip_cell(map_pos)
-			#update_cell(map_pos)
 
 
 func _on_mouse_entered() -> void:

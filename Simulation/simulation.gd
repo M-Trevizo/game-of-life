@@ -1,5 +1,7 @@
 class_name Simulation
 extends Node
+## Responsible for the cellular automota simulation.
+
 
 ## Time between each simulation step
 const TIME: float = 0.5
@@ -19,6 +21,7 @@ func start() -> void:
 	timer.start(TIME)
 
 
+## Steps the simulation forward.
 func step() -> void:
 	if not timer.is_stopped():
 		timer.stop()
@@ -26,6 +29,7 @@ func step() -> void:
 	_calc_next_step(Chunk.chunks)
 
 
+## Stops the simulation.
 func stop() -> void:
 	is_running = false
 	timer.stop()
@@ -39,6 +43,7 @@ func _calc_next_step(chunks: Dictionary) -> void:
 	_flip_cells(chunks)
 
 
+## Determines whether a cell should be flipped based on the rules for Conway's Game of Life.
 func _flip_cells(chunks: Dictionary) -> void:
 	for chunk: Chunk in chunks.values():
 		for cell: Cell in chunk.cells.values():

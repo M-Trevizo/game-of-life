@@ -3,8 +3,6 @@ extends Node2D
 const MAX_CAM_SPEED: int = 800
 const MIN_CAM_SPEED: int = 200
 
-#var grid_state: GridState
-#var global_grid_coords: Vector2
 var simulation: Simulation
 var chunk_scene: PackedScene = preload("uid://dbffxqi58ld0")
 
@@ -20,10 +18,6 @@ func _ready() -> void:
 	_position_player()
 	hud.update_speed_label(player.speed)
 	hud.update_zoom_label(player.camera.zoom.x)
-
-
-func _process(_delta: float) -> void:
-	pass
 
 
 func _generate_starting_chunks() -> void:
