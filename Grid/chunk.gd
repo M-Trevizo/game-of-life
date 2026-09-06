@@ -15,8 +15,9 @@ enum Sides {
 	RIGHT,
 }
 
-## Side length of each chunk.
+## Side length of each chunk in pixels.
 const CHUNK_WIDTH: int = 10 * 50
+## Total number of cells in each chunk.
 const NUM_CELLS: int = 10 * 10
 
 ## Dictionary of all chunks created
@@ -38,7 +39,7 @@ var location: Vector2i
 var contains_mouse: bool
 
 ## List of cells that are currently alive and the number of live neighbors.
-var active_cells: Dictionary[Vector2i, Cell]
+var cells: Dictionary[Vector2i, Cell]
 
 @onready var tilemap_layer: TileMapLayer = $TileMapLayer
 
@@ -50,6 +51,7 @@ static func create(pos: Vector2i) -> Chunk:
 	instance.id = next_chunk_id
 	instance.position = pos
 	instance.location = Vector2i(pos.x / CHUNK_WIDTH, pos.y / CHUNK_WIDTH)
+	instance.init_cells()
 	chunks[instance.id] = instance
 	return instance
 
@@ -134,28 +136,33 @@ static func relative_to_global(chunk_location: Vector2i) -> Vector2i:
 
 ## Flips a tile from a dead tile to an alive tile and vice versa.
 func flip_cell(map_pos: Vector2i) -> void:
-	if dead_tile_atlas_coords == tilemap_layer.get_cell_atlas_coords(map_pos):
+	var cell: Cell = cells.get(map_pos)
+	if not cell.is_alive:
 		tilemap_layer.set_cell(map_pos, tile_source_id, alive_tile_atlas_coords)
+		cell.is_alive = true
 	else:
 		tilemap_layer.set_cell(map_pos, tile_source_id, dead_tile_atlas_coords)
+		cell.is_alive = false
 
 
 func update_cell(cell_pos: Vector2i) -> void:
-	var cell: Cell = active_cells.get_or_add(cell_pos, Cell.new(cell_pos, false))
-	if tilemap_layer.get_cell_atlas_coords(cell.location) == alive_tile_atlas_coords:
-		cell.is_alive = true
-	else:
-		cell.is_alive = false
-	cell.num_of_alive_neighbors = _count_live_neighbors(cell.location)
-	_update_neighbors(cell.location, cell.is_alive)
+	var cell: Cell = cells.get(cell_pos)
+	cell.num_of_alive_neighbors = _count_live_neighbors(cell)
+
+
+## Initialize [member cells] with dead cells
+func init_cells() -> void:
+	for y in range(10):
+		for x in range(10):
+			cells.set(Vector2i(x, y), Cell.new(Vector2i(x, y), false))
 
 
 ## Returns the number of living neighboring cells of the cell at [param cell_pos]
-func _count_live_neighbors(cell_pos: Vector2i) -> int:
+func _count_live_neighbors(cell: Cell) -> int:
 	var count: int = 0
-	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell_pos)
-	for cell in neighbors:
-		if alive_tile_atlas_coords == tilemap_layer.get_cell_atlas_coords(cell):
+	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell.location)
+	for neighbor in neighbors:
+		if cells.get(neighbor) and cells.get(neighbor).is_alive:
 			count += 1
 	return count
 
@@ -172,17 +179,20 @@ func _get_cell_neighbors(cell_pos: Vector2i) -> Array[Vector2i]:
 
 ## Update the values in [member active_cells] if they are neighbors of [param cell_pos]. [br]
 ## [param increment] will increment the values if [code]true[/code] and decrement if [code]false[/code].
-func _update_neighbors(cell_pos: Vector2i, increment: bool = true) -> void:
-	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell_pos)
-	# Add any neighboring cells not already in active_cells to active_cells
-	# Then inc or dec values as needed
+func _update_neighbors(cell: Cell) -> void:
+	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell.location)
 	for neighbor in neighbors:
-		if not active_cells.has(neighbor):
-			active_cells.set(neighbor, Cell.new(neighbor, false))
-		if increment:
-			active_cells[neighbor].num_of_alive_neighbors += 1
+		if (
+			neighbor.x < 0
+			or neighbor.y < 0
+			or neighbor.x > 9
+			or neighbor.y > 9
+		):
+			continue
+		if cell.is_alive:
+			cells[neighbor].num_of_alive_neighbors += 1
 		else:
-			active_cells[neighbor].num_of_alive_neighbors -= 1
+			cells[neighbor].num_of_alive_neighbors -= 1
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -191,7 +201,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var local_pos: Vector2 = to_local(get_global_mouse_position())
 			var map_pos: Vector2i = tilemap_layer.local_to_map(local_pos)
 			flip_cell(map_pos)
-			update_cell(map_pos)
+			#update_cell(map_pos)
 
 
 func _on_mouse_entered() -> void:

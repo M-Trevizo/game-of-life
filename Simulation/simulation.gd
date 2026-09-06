@@ -34,13 +34,19 @@ func stop() -> void:
 ## Calculates what the next state of each chunk should be.
 func _calc_next_step(chunks: Dictionary) -> void:
 	for chunk: Chunk in chunks.values():
-		for position in chunk.active_cells:
-			var cell: Cell = chunk.active_cells.get(position)
+		for cell: Cell in chunk.cells.values():
+			chunk.update_cell(cell.location)
+	_flip_cells(chunks)
+
+
+func _flip_cells(chunks: Dictionary) -> void:
+	for chunk: Chunk in chunks.values():
+		for cell: Cell in chunk.cells.values():
 			if cell.is_alive:
 				if cell.num_of_alive_neighbors < 2 or cell.num_of_alive_neighbors > 3:
-					chunk.flip_cell(position)
+					chunk.flip_cell(cell.location)
 			elif not cell.is_alive and cell.num_of_alive_neighbors == 3:
-				chunk.flip_cell(position)
+				chunk.flip_cell(cell.location)
 
 
 func _on_timer_timeout() -> void:
