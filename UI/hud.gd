@@ -5,8 +5,8 @@ signal sim_start
 signal sim_step
 signal sim_stop
 
-@onready var speed: Label = $MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/SpeedContainer/Speed
-@onready var zoom: Label = $MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/ZoomContainer/Zoom
+@onready var speed: Label = %Speed
+@onready var zoom: Label = %Zoom
 
 
 # Called when the node enters the scene tree for the first time.

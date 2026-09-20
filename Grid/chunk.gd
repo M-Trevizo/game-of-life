@@ -15,10 +15,13 @@ enum Sides {
 	RIGHT,
 }
 
+## Number of cells the chunk wide
+const CHUNK_WIDTH_CELL: int = 10
 ## Side length of each chunk in pixels.
-const CHUNK_WIDTH: int = 10 * 50
+const CHUNK_WIDTH_PIXEL: int = CHUNK_WIDTH_CELL * 50
 ## Total number of cells in each chunk.
-const NUM_CELLS: int = 10 * 10
+const NUM_CELLS: int = CHUNK_WIDTH_CELL ** 2
+
 
 ## Dictionary of all chunks created
 static var chunks: Dictionary[int, Chunk] = {}
@@ -50,7 +53,7 @@ static func create(pos: Vector2i) -> Chunk:
 	var instance: Chunk = chunk_scene.instantiate()
 	instance.id = next_chunk_id
 	instance.position = pos
-	instance.location = Vector2i(pos.x / CHUNK_WIDTH, pos.y / CHUNK_WIDTH)
+	instance.location = Vector2i(pos.x / CHUNK_WIDTH_PIXEL, pos.y / CHUNK_WIDTH_PIXEL)
 	instance.init_cells()
 	chunks[instance.id] = instance
 	return instance
@@ -131,7 +134,7 @@ static func get_chunk_by_loc(chunk_loc: Vector2i) -> Chunk:
 ## Converts a chunks chunk-grid location to a global position.
 ## Takes [member location] as argument
 static func relative_to_global(chunk_location: Vector2i) -> Vector2i:
-	return Vector2i(chunk_location.x * CHUNK_WIDTH, chunk_location.y * CHUNK_WIDTH)
+	return Vector2i(chunk_location.x * CHUNK_WIDTH_PIXEL, chunk_location.y * CHUNK_WIDTH_PIXEL)
 
 
 ## Flips a tile from a dead tile to an alive tile and vice versa.
@@ -163,8 +166,58 @@ func init_cells() -> void:
 func _count_live_neighbors(cell: Cell) -> int:
 	var count: int = 0
 	var neighbors: Array[Vector2i] = _get_cell_neighbors(cell.location)
+	# Checks neighboring chunks when needed
+	# It's not pretty though
 	for neighbor in neighbors:
-		if cells.get(neighbor) and cells.get(neighbor).is_alive:
+		var neighbor_cell: Cell = null
+		var neighbor_is_alive: bool = false
+		if neighbor.x < 0: # Left side chunks
+			if neighbor.y < 0: # UL chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(-1, -1))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(9, 9))
+					neighbor_is_alive = neighbor_cell.is_alive
+			elif neighbor.y >= CHUNK_WIDTH_CELL: # LR chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(-1, 1))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(9, 0))
+					neighbor_is_alive = neighbor_cell.is_alive
+			else: # Left chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(-1, 0))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(9, neighbor.y))
+					neighbor_is_alive = neighbor_cell.is_alive
+		elif neighbor.x >= CHUNK_WIDTH_CELL: # Right side chunks
+			if neighbor.y < 0: # UR chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(1, -1))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(0, 9))
+					neighbor_is_alive = neighbor_cell.is_alive
+			elif neighbor.y >= CHUNK_WIDTH_CELL: # LR chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(1, 1))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(0, 0))
+					neighbor_is_alive = neighbor_cell.is_alive
+			else: # Right chunk
+				var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(1, 0))
+				if neighbor_chunk:
+					neighbor_cell = neighbor_chunk.cells.get(Vector2i(0, neighbor.y))
+					neighbor_is_alive = neighbor_cell.is_alive
+		elif neighbor.y < 0: # Top chunk
+			var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(0, -1))
+			if neighbor_chunk:
+				neighbor_cell = neighbor_chunk.cells.get(Vector2i(neighbor.x, 9))
+				neighbor_is_alive = neighbor_cell.is_alive
+		elif neighbor.y >= CHUNK_WIDTH_CELL: # Top chunk
+			var neighbor_chunk: Chunk = get_chunk_by_loc(location + Vector2i(0, 1))
+			if neighbor_chunk:
+				neighbor_cell = neighbor_chunk.cells.get(Vector2i(neighbor.x, 0))
+				neighbor_is_alive = neighbor_cell.is_alive
+		else: # Current chunk
+			neighbor_cell = cells.get(neighbor)
+			neighbor_is_alive = neighbor_cell.is_alive
+		
+		if neighbor_cell and neighbor_is_alive:
 			count += 1
 	return count
 

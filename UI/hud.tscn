@@ -59,6 +59,7 @@ text = "Speed:"
 horizontal_alignment = 2
 
 [node name="Speed" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/SpeedContainer" unique_id=963379287]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24
@@ -76,6 +77,7 @@ text = "Zoom:"
 horizontal_alignment = 2
 
 [node name="Zoom" type="Label" parent="MarginContainer/VBoxContainer/LabelContainer/HBoxContainer/ZoomContainer" unique_id=1768089579]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 24

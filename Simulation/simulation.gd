@@ -4,7 +4,7 @@ extends Node
 
 
 ## Time between each simulation step
-const TIME: float = 0.5
+const TIME: float = 0.25
 
 var is_running: bool
 var timer: Timer
